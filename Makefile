@@ -8,25 +8,19 @@
 PROGRAM=yauml
 INSTALL_DIR=/usr/share/$(PROGRAM)
 BIN=/usr/bin/$(PROGRAM)
-TEMLPATES=templates
+TEMPLATES=templates
 DOCDIR=/usr/share/man/man1
 BASH_COMPLETION_DIR=/usr/share/bash-completion/completions
 # --------------------------------------------------
 
-config: clean
-	sed -e "s,template_filename.*=.*'.*',template_filename = '$(INSTALL_DIR)/template.dot'," bin/process.py \
-		>bin/$(PROGRAM)
-clean:
-	@rm -f bin/$(PROGRAM)
-
-install: ./bin/$(PROGRAM) $(TEMLPATES)/default.dot ./doc/$(PROGRAM).1
+install: $(TEMPLATES)/default.dot ./doc/$(PROGRAM).1
 	@#you don't want to overwrite an existing installation.. Use reinstall
 	@if test -d "$(INSTALL_DIR)"; then echo "$(INSTALL_DIR) already exists. Use 'make reinstall'" >&2; \
 		exit 1; fi
 	@echo "Installing yauml..."
 	mkdir -p $(INSTALL_DIR)
-	cp -r $(TEMLPATES) $(INSTALL_DIR)
-	cp $(INSTALL_DIR)/$(TEMLPATES)/default.dot $(INSTALL_DIR)/template.dot
+	cp -r $(TEMPLATES) $(INSTALL_DIR)
+	cp $(INSTALL_DIR)/$(TEMPLATES)/default.dot $(INSTALL_DIR)/template.dot
 	cp bin/$(PROGRAM) $(BIN)
 	chmod 755 $(BIN)
 	@echo "Installing documentation..."
