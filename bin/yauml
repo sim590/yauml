@@ -19,9 +19,10 @@ AUTHORS:
 #                  http://www.gnu.org/licenses/                                     *
 #************************************************************************************
 
-import sys, yaml, getopt, re, subprocess
+import os, sys, yaml, getopt, re, subprocess
 
-template_filename = '../templates/default.dot'
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+TEMPLATE_FILENAME = CURRENT_DIR + '/../templates/default.dot'
 out_file = None
 out_type = None
 
@@ -40,7 +41,7 @@ OPTIONS:\n\
 \t-t|--template template\n\
 \t\tSepcifies the template file (default: %s).\n\
 \t-h|--help\n\
-\t\tDisplays this help text.' % template_filename
+\t\tDisplays this help text.' % TEMPLATE_FILENAME
 PROGRAM='yauml'
 
 
@@ -212,7 +213,7 @@ def getOptions():
     r"""
     Gets all options at command line.
     """
-    global yaml_filename, template, template_filename, out_file, out_type
+    global yaml_filename, template, TEMPLATE_FILENAME, out_file, out_type
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hvt:o:T:", ["help","version","template=","out=","Type="])
@@ -233,7 +234,7 @@ def getOptions():
             print(HELP)
             sys.exit(0)
         elif o in ("-t","--template"):
-            template_filename = a
+            TEMPLATE_FILENAME = a
         else:
             assert False
             
@@ -245,7 +246,7 @@ def getOptions():
         print(PROGRAM+': -T option has to be used with -o')
         sys.exit(1)
     
-    with open(template_filename, 'r') as template_file: 
+    with open(TEMPLATE_FILENAME, 'r') as template_file: 
         template = template_file.read()
     yaml_filename = args[0]
 
