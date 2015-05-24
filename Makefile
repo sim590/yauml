@@ -13,7 +13,12 @@ DOCDIR=/usr/share/man/man1
 BASH_COMPLETION_DIR=/usr/share/bash-completion/completions
 # --------------------------------------------------
 
-install: $(TEMPLATES)/default.dot ./doc/$(PROGRAM).1
+all:
+
+pre-install:
+	sed -i -e "s,TEMPLATE_FILENAME *= *CURRENT_DIR *+ *'/../templates/default.dot',TEMPLATE_FILENAME = '$(INSTALL_DIR)/template.dot'," bin/$(PROGRAM)
+
+install: pre-install $(TEMPLATES)/default.dot ./doc/$(PROGRAM).1
 	@#you don't want to overwrite an existing installation.. Use reinstall
 	@if test -d "$(INSTALL_DIR)"; then echo "$(INSTALL_DIR) already exists. Use 'make reinstall'" >&2; \
 		exit 1; fi
