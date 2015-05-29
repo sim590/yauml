@@ -34,12 +34,14 @@ install-doc: ./doc/$(program).1
 	$(INSTALL_DATA) doc/$(program).1 $(docdir)/$(program).1
 	gzip -f $(docdir)/$(program).1
 
-install-data: templates/default.dot 
-	@test ! -d $(yaumldir) || echo "$(yaumldir) already exists. use 'make reinstall'" >&2
+install-data: templates/default.dot install-bash-comp
 	$(info Installing yauml...)
+	@test ! -d $(yaumldir) || echo "$(yaumldir) already exists. use 'make reinstall'" >&2
 	mkdir -p $(yaumldir)/templates
-	$(INSTALL_DATA) -t $(yaumldir)/templates $(wildcard templates/*)
+	$(INSTALL_DATA) $(wildcard templates/*) $(yaumldir)/templates
 	cp $(yaumldir)/templates/default.dot $(yaumldir)/template.dot
+
+install-bash-comp: bin/$(program)_completion
 	$(info Installing bash completion script...)
 	@test -d $(bash_completion_dir) || echo "Cannot install bash completion script. See bash_completion_dir variable..." >&2
 	$(INSTALL_DATA) bin/$(program)_completion $(bash_completion_dir)/$(program)
