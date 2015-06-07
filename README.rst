@@ -119,7 +119,9 @@ Bash completion
 
 In order for TAB completion to be configured when you install the program,
 you have to configure the ``BASH_COMPLETION_DIR`` variable in the ``Makefile``
-because it depends on the OS you're using.
+because it depends on the OS you're using. Then, simply do ::
+
+    make install-bash-comp
 
 
 Dependencies
