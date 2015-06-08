@@ -24,12 +24,13 @@ INSTALL_DATA = $(INSTALL) -m 644
 all:
 
 pre-install:
-	sed -i -e "s,TEMPLATE_FILENAME *= *CURRENT_DIR *+ *'/../templates/default.dot',TEMPLATE_FILENAME = '$(yaumldir)/template.dot'," bin/$(program)
+	sed -e "s,TEMPLATE_FILENAME *= *CURRENT_DIR *+ *'/../templates/default.dot',TEMPLATE_FILENAME = '$(yaumldir)/template.dot'," <bin/$(program) >bin/$(program).tmp
 
 install: install-checks pre-install install-data install-doc install-bin
 
 install-bin:
-	$(INSTALL_BIN) bin/$(program) $(bindir)/$(program)
+	$(INSTALL_BIN) bin/$(program).tmp $(bindir)/$(program)
+	rm bin/$(program).tmp
 
 install-doc: ./doc/$(program).1
 	$(info Installing documentation...)
