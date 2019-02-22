@@ -19,15 +19,16 @@ AUTHORS:
 #                  http://www.gnu.org/licenses/                                     *
 #************************************************************************************
 
-import yaml, sys, getopt, re, subprocess
+import yaml, sys, getopt, re, subprocess, os
 
-template_filename = '../templates/default.dot'
+import yauml
+
+template_filename = os.path.dirname(os.path.realpath(__file__))+'/templates/default.dot'
 out_file = None
 out_type = None
 
 # CONSTANTS
-VERSION='0.1'
-VERSION_INFO='yauml v%s -- A script for generating UML diagrams from YAML file' % VERSION
+VERSION_INFO='yauml v%s -- A script for generating UML diagrams from YAML file' % yauml.__version__
 HELP='yauml [OPTIONS] file\n\
 \tfile: The YAML file to convert.\n\
 OPTIONS:\n\
@@ -41,7 +42,6 @@ OPTIONS:\n\
 \t\tSepcifies the template file (default: %s).\n\
 \t-h|--help\n\
 \t\tDisplays this help text.' % template_filename
-PROGRAM='yauml'
 
 
 class DotStringBuilder(object):
@@ -238,11 +238,11 @@ def getOptions():
             assert False
 
     if len(args) < 1:
-        print(PROGRAM+': an argument is missing.')
+        print(yauml.__name__+': an argument is missing.')
         sys.exit(1)
 
     if out_type and not out_file:
-        print(PROGRAM+': -T option has to be used with -o')
+        print(yauml.__name__+': -T option has to be used with -o')
         sys.exit(1)
 
     with open(template_filename, 'r') as template_file:
@@ -263,7 +263,7 @@ def main():
         try:
             f = open(out_file, 'w')
         except FileNotFoundError as e:
-            print('%s: %s' % (PROGRAM, e), file=sys.stderr)
+            print('%s: %s' % (yauml.__name__, e), file=sys.stderr)
 
         #using dot directly
         if out_type:
@@ -273,5 +273,6 @@ def main():
 
     print(out_data, file=f)
 
-if __name__ == "__main__":
-    main()
+
+#  vim: set sts=4 ts=4 sw=4 tw=120 et :
+

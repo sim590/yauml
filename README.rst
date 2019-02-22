@@ -15,13 +15,13 @@ diagram. Let the following file ``./example/ex1/1.yaml``::
         - int a
       methods:
         - int get_a()
-    
+
     - class: B
       attributes:
         - int b
       methods:
         - int get_b()
-    
+
     - class: C
       attributes:
         - int c
@@ -55,7 +55,7 @@ Let's add some particularities to this conception::
         - int a
       methods:
         - int get_a()
-    
+
     - class: B
       inherits:
         - A
@@ -63,7 +63,7 @@ Let's add some particularities to this conception::
         - int b
       methods:
         - int get_b()
-    
+
     - class: C
       inherits:
         - A
@@ -71,7 +71,7 @@ Let's add some particularities to this conception::
         - int c
       methods:
         - int get_c()
-    
+
 and the output through ``yauml`` and ``dot`` would now be:
 
 .. image:: ./example/ex1/2.png
@@ -105,14 +105,14 @@ see **Graphviz** documentation.
 Installation
 ------------
 
-First, you can configure some variables to suit your needs in the ``Makefile``.
-Then, simply run::
+Setuptools handles installation. You can issue the following to install into
+``/usr/local``::
 
-    make
+   python3 setup.py install --prefix /usr/local/
 
-and::
-
-    make install
+In order to include installation of **manpage** under standard directory, pass
+option ``--single-version-externally-managed``. This option is particularly
+useful for package maintainers.
 
 Bash completion
 ===============
